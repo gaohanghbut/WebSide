@@ -1,0 +1,4 @@
+http\://www.hbut.edu.cn/schema/service/mvc-service=cn.hang.mvc.service.config.MvcServiceNamespaceHandler
+http\://www.hbut.edu.cn/schema/pineline/mvc-pipeline=cn.hang.mvc.pipeline.config.MvcPipelineNamespaceHandler
+http\://www.hbut.edu.cn/schema/action/mvc-action=cn.hang.mvc.config.ActionNamespaceHandler
+http\://www.hbut.edu.cn/schema/result/mvc-result=cn.hang.mvc.result.config.ResultNamespaceHandler

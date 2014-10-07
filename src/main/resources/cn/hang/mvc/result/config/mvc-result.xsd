@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://www.hbut.edu.cn/schema/result/mvc-result"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.hbut.edu.cn/schema/result/mvc-result"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<!-- base types -->
+	<xsd:complexType name="identifiedType" abstract="true">
+		<xsd:attribute name="id" type="xsd:string">
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:element name="result-type-mapper">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[返回结果重写映射关系，比如说如果请求返回的资源为htm，可以将其重写为html，则source="htm",target="html"]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:attribute name="source" type="xsd:string"></xsd:attribute>
+					<xsd:attribute name="target" type="xsd:string"></xsd:attribute>
+					<xsd:attribute name="sufix" type="xsd:string"></xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:group name="beanElements">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="result-type-mapper" />
+				<xsd:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+	
+	<xsd:attributeGroup name="beanAttributes">
+		<xsd:anyAttribute namespace="##other" processContents="lax" />
+	</xsd:attributeGroup>
+	
+	<xsd:element name="result-type-rewrite">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[返回结果重写，比如说如果请求返回的资源为htm，可以将其重写为html]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:group ref="beanElements" />
+					<xsd:attributeGroup ref="beanAttributes" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="result-handler">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:attribute name="target" type="xsd:string"></xsd:attribute>
+					<xsd:attribute name="class" type="xsd:string"></xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

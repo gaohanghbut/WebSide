@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<xsd:schema xmlns="http://www.hbut.edu.cn/schema/service/mvc-service"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:tool="http://www.springframework.org/schema/tool"
+	targetNamespace="http://www.hbut.edu.cn/schema/service/mvc-service"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+	<xsd:import namespace="http://www.springframework.org/schema/beans"
+		schemaLocation="http://www.springframework.org/schema/beans/spring-beans-3.2.xsd" />
+	<xsd:import namespace="http://www.springframework.org/schema/tool"
+		schemaLocation="http://www.springframework.org/schema/tool/spring-tool-3.2.xsd" />
+
+	<!-- base types -->
+	<xsd:complexType name="identifiedType" abstract="true">
+		<xsd:attribute name="id" type="xsd:string">
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:attributeGroup name="beanAttributes">
+		<xsd:attribute name="class" type="xsd:string">
+		</xsd:attribute>
+		<xsd:anyAttribute namespace="##other"
+			processContents="lax" />
+	</xsd:attributeGroup>
+
+	<xsd:element name="modules">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[表示要装载的模块名，不同的模块名用空格分开，每个模块在web-inf文件夹下应有一个子文件夹用于存放模块对应的配置文件]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="modulesType">
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="modulesType">
+		<xsd:attribute name="moduleNames" type="xsd:string" use="required">
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:group name="beanElements">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="modules" />
+				<xsd:any namespace="##other" processContents="strict"
+					minOccurs="0" maxOccurs="unbounded" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:element name="module-load-service">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[模块装载服务，应用中只能有一个这样的配置]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:group ref="beanElements" />
+					<xsd:attributeGroup ref="beanAttributes" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="pipeline-service">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[管道服务，应用中只能有一个这个标签的配置]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:attributeGroup ref="beanAttributes" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="general-service">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[其它服务，可以有多个服务配置]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:attributeGroup ref="beanAttributes" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

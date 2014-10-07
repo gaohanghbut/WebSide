@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<xsd:schema xmlns="http://www.hbut.edu.cn/schema/pineline/mvc-pipeline"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:tool="http://www.springframework.org/schema/tool"
+	targetNamespace="http://www.hbut.edu.cn/schema/pineline/mvc-pipeline"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+	<xsd:import namespace="http://www.springframework.org/schema/beans"
+		schemaLocation="http://www.springframework.org/schema/beans/spring-beans-3.2.xsd" />
+	<xsd:import namespace="http://www.springframework.org/schema/tool"
+		schemaLocation="http://www.springframework.org/schema/tool/spring-tool-3.2.xsd" />
+
+	<!-- base types -->
+	<xsd:complexType name="identifiedType" abstract="true">
+		<xsd:attribute name="id" type="xsd:string">
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:attributeGroup name="pipelineAttributes">
+		<xsd:attribute name="class" type="xsd:string">
+		</xsd:attribute>
+		<xsd:anyAttribute namespace="##other"
+			processContents="lax" />
+	</xsd:attributeGroup>
+
+	<xsd:attributeGroup name="valveAttributes">
+		<xsd:attribute name="class" type="xsd:string">
+		</xsd:attribute>
+		<xsd:anyAttribute namespace="##other"
+			processContents="lax" />
+	</xsd:attributeGroup>
+
+	<xsd:element name="valve">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[阀门]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:attributeGroup ref="valveAttributes" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="try-catch-finally-valve">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[阀门]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:group ref="tryCatchFinallyValveElement"></xsd:group>
+					<xsd:attributeGroup ref="valveAttributes" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:group name="tryCatchFinallyValveElement">
+		<xsd:sequence>
+			<xsd:choice minOccurs="1" maxOccurs="1">
+				<xsd:element ref="try" />
+			</xsd:choice>
+			<xsd:choice minOccurs="0" maxOccurs="1">
+				<xsd:element ref="catch" />
+			</xsd:choice>
+			<xsd:choice minOccurs="0" maxOccurs="1">
+				<xsd:element ref="finally" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:element name="try">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[try]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:group ref="tryCatchFinallyControlElement"></xsd:group>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="catch">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[发生异常]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:group ref="tryCatchFinallyControlElement"></xsd:group>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="finally">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[清理]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:group ref="tryCatchFinallyControlElement"></xsd:group>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:group name="tryCatchFinallyControlElement">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[try-catch-finally流程控制]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="valve" />
+				<xsd:element ref="if-else-if-valve"></xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:group name="ifControlElement">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="valve" />
+				<xsd:element ref="if-else-if-valve"></xsd:element>
+				<xsd:element ref="try-catch-finally-valve"></xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:element name="if-else-if-valve">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[条件判断Valve]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:group ref="ifElseIfElements"></xsd:group>
+					<xsd:attributeGroup ref="valveAttributes" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:group name="ifElseIfElements">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[条件判断控制]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice minOccurs="1" maxOccurs="1">
+				<xsd:element ref="if" />
+			</xsd:choice>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="else-if" />
+			</xsd:choice>
+			<xsd:choice minOccurs="0" maxOccurs="1">
+				<xsd:element ref="else" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:attributeGroup name="ifControlAttributes">
+		<xsd:attribute name="uri-sufix" type="xsd:string">
+		</xsd:attribute>
+		<xsd:anyAttribute namespace="##other"
+			processContents="lax" />
+	</xsd:attributeGroup>
+
+	<xsd:element name="if">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:group ref="ifControlElement"></xsd:group>
+					<xsd:attributeGroup ref="ifControlAttributes"></xsd:attributeGroup>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="else-if">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:group ref="ifControlElement"></xsd:group>
+					<xsd:attributeGroup ref="ifControlAttributes"></xsd:attributeGroup>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="else">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:group ref="ifControlElement"></xsd:group>
+					<xsd:attributeGroup ref="ifControlAttributes"></xsd:attributeGroup>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:group name="pipelineElements">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="valve" />
+				<xsd:element ref="try-catch-finally-valve"></xsd:element>
+				<xsd:element ref="if-else-if-valve"></xsd:element>
+				<xsd:any namespace="##other" processContents="strict"
+					minOccurs="0" maxOccurs="unbounded" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:element name="pipeline">
+		<xsd:annotation>
+			<xsd:documentation>
+					<![CDATA[管道]]>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:group ref="pipelineElements"></xsd:group>
+					<xsd:attributeGroup ref="pipelineAttributes" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

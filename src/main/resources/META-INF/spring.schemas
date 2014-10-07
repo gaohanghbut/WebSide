@@ -1,0 +1,4 @@
+http\://www.hbut.edu.cn/schema/service/mvc-service.xsd=cn/hang/mvc/service/config/mvc-service.xsd
+http\://www.hbut.edu.cn/schema/pineline/mvc-pipeline.xsd=cn/hang/mvc/pipeline/config/mvc-pipeline.xsd
+http\://www.hbut.edu.cn/schema/action/mvc-action.xsd=cn/hang/mvc/config/mvc-action.xsd
+http\://www.hbut.edu.cn/schema/result/mvc-result.xsd=cn/hang/mvc/result/config/mvc-result.xsd

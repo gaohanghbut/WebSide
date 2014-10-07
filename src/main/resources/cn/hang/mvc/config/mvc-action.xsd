@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://www.hbut.edu.cn/schema/action/mvc-action"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.hbut.edu.cn/schema/action/mvc-action"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<!-- base types -->
+	<xsd:complexType name="identifiedType" abstract="true">
+		<xsd:attribute name="id" type="xsd:string">
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:element name="action">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="identifiedType">
+					<xsd:attribute name="class" type="xsd:string">
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="forward" ></xsd:element>
+</xsd:schema>
