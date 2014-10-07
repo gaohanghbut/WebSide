@@ -12,13 +12,15 @@ import cn.hang.mvc.service.ServiceManager;
 import cn.hang.mvc.service.TypeConvertService;
 
 /**
- *
+ * 基于类型转换器的属性设置器，在设置属性前先通过类型转换服务进行类型转换
+ * 
  * @author Hang
  *
  */
 public class ConverterBasedPropertyValueSetter extends PropertyValueSetterImpl {
 	
 	/**
+	 * 类型转换服务
 	 */
 	private TypeConvertService typeConvertService;
 	
@@ -37,7 +39,7 @@ public class ConverterBasedPropertyValueSetter extends PropertyValueSetterImpl {
 			return;
 		}
 		Class<?>[] classes = method.getParameterTypes();
-		if (classes == null || classes.length == 0 || classes.length > 1) {//??????
+		if (classes == null || classes.length == 0 || classes.length > 1) {//参数不合法
 			return;
 		}
 		val = typeConvertService.convert(val.toString(), ClassUtils.to(classes[0]));

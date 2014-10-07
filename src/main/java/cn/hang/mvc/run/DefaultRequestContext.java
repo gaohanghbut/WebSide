@@ -83,11 +83,13 @@ public class DefaultRequestContext extends AbstractRequestContext {
 
 	public DefaultRequestContext() {
 		this(HttpRequestManager.DEFAULT_HTTP_REQUEST_MANAGER.getMvcHttpServletRequest(), HttpRequestManager.DEFAULT_HTTP_REQUEST_MANAGER.getMvcHttpServletResponse());
+		this.servletRequest.setAttribute("requestContext", this);
 	}
 	
 	public DefaultRequestContext(RequestContext parent) {
 		this();
 		this.parent = parent;
+		this.servletRequest.setAttribute("requestContext", this);
 	}
 
 	public DefaultRequestContext(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
@@ -96,6 +98,7 @@ public class DefaultRequestContext extends AbstractRequestContext {
 		Assert.notNull(servletResponse, "HttpServletResponse cannot be null !");
 		this.servletRequest = servletRequest;
 		this.servletResponse = servletResponse;
+		this.servletRequest.setAttribute("requestContext", this);
 	}
 
 	public DefaultRequestContext(HttpServletRequest servletRequest, HttpServletResponse servletResponse, RequestContext parent) {
@@ -103,8 +106,9 @@ public class DefaultRequestContext extends AbstractRequestContext {
 		this.servletRequest = servletRequest;
 		this.servletResponse = servletResponse;
 		this.parent = parent;
+		this.servletRequest.setAttribute("requestContext", this);
 	}
-
+	
 	public HttpServletRequest getServletRequest() {
 		return servletRequest;
 	}
@@ -282,6 +286,11 @@ public class DefaultRequestContext extends AbstractRequestContext {
 	}
 
 	@Override
+    public void expireForward() {
+	    returned = true;
+    }
+
+    @Override
 	public String getRequestModuleName() {
 		if (moduleName == null) {
 			synchronized (moduleLock) {

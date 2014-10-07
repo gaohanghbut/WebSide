@@ -1,5 +1,6 @@
 package cn.hang.mvc.service.impl;
 
+import cn.hang.mvc.common.util.ApplicationContextUtils;
 import cn.hang.mvc.service.Service;
 import cn.hang.mvc.service.ServiceManager;
 import cn.hang.mvc.spring.context.ServiceApplicationContext;
@@ -19,6 +20,7 @@ public class DefaultServiceManager implements ServiceManager {
 
 	public DefaultServiceManager() {
 		serviceApplicationContext = new ServiceApplicationContext();
+		ApplicationContextUtils.getApplicationContextHolder().set("_service_manager_application_context_", serviceApplicationContext);
 	}
 
 	@Override
@@ -36,5 +38,10 @@ public class DefaultServiceManager implements ServiceManager {
 			service.service();
 		}
 	}
+
+    @Override
+    public <T extends Service> T getService(Class<T> c) {
+        return serviceApplicationContext.getBean(c);
+    }
 
 }

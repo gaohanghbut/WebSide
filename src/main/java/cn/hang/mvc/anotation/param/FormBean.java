@@ -7,10 +7,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 鐢ㄤ簬鎺ユ敹琛ㄥ崟鍙傛暟锛屽皢琛ㄥ崟涓殑鍚勫弬鏁板垱寤轰竴涓柟娉曡皟鐢ㄥ弬鏁颁腑鐨勫疄浣撶被鍨嬬殑瀵硅薄
- *
+ * 用于接收表单参数，将表单中的各参数创建一个方法调用参数中的实体类型的对象
+ * 
  * @author GaoHang
- *
+ * 
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)

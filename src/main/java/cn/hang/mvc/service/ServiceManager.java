@@ -36,6 +36,11 @@ public interface ServiceManager extends Service {
 	public static final String TYPE_CONVERT_SERVICE = "_type_convert_service_";
 	
 	/**
+	 * 文件上传服务的名称
+	 */
+	public static final String FILE_UPLOAD_SERVICE = "_file_upload_service_";
+	
+	/**
 	 * 默认服务管理器
 	 */
 	public static final ServiceManager DEFAULT_SERVICE_MANAGER = new DefaultServiceManager();
@@ -48,5 +53,7 @@ public interface ServiceManager extends Service {
 	 * @return
 	 */
 	Service getService(String serviceName);
+	
+	<T extends Service>T getService(Class<T> c);
 	
 }

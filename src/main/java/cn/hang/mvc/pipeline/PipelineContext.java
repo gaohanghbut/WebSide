@@ -38,4 +38,16 @@ public interface PipelineContext {
 	 * @return action的调用结果
 	 */
 	public Object getActionInvokeResult();
+	
+	/**
+	 * 停止执行管道
+	 */
+	public void stopPipeline();
+	
+	/**
+	 * 管道是否已经停止执行
+	 * @return
+	 */
+	public boolean isPipelineStop();
+	
 }

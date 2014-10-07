@@ -3,7 +3,10 @@ package cn.hang.mvc.spring.holder.impl;
 import java.util.Collections;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 import cn.hang.mvc.spring.holder.ApplicationContextHolder;
 
@@ -14,10 +17,12 @@ import cn.hang.mvc.spring.holder.ApplicationContextHolder;
  */
 public abstract class AbstractApplicationContextHolder implements ApplicationContextHolder {
 
+    private Log log = LogFactory.getLog(AbstractApplicationContextHolder.class);
+    
 	/**
 	 * 用于容纳各个模块对应的ApplicationContext对象
 	 */
-	private Map<String, ApplicationContext> applicationContexts;
+	private volatile Map<String, ApplicationContext> applicationContexts;
 
 	public AbstractApplicationContextHolder() {
 		super();
@@ -71,5 +76,21 @@ public abstract class AbstractApplicationContextHolder implements ApplicationCon
 	public void constHolder() {
 		applicationContexts = Collections.unmodifiableMap(applicationContexts);
 	}
+
+    @Override
+    public void destroy() {
+        for (Map.Entry<String, ApplicationContext> en : applicationContexts.entrySet()) {
+            ApplicationContext applicationContext = en.getValue();
+            if (applicationContext instanceof ConfigurableWebApplicationContext) {
+                try {
+                    ((ConfigurableWebApplicationContext)applicationContext).close();
+                } catch (Exception e) {
+                    if (log.isErrorEnabled()) {
+                        log.error("Close the application context " + en.getKey() + " failed", e);
+                    }
+                }
+            }
+        }
+    }
 	
 }

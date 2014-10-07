@@ -9,7 +9,7 @@ import cn.hang.mvc.pipeline.PipelineContext;
 import cn.hang.mvc.pipeline.valve.Valve;
 
 /**
- * 默认ConditionPipeline的实现，使用装饰器模式
+ * 默认ConditionPipeline的实现，使用装饰器模式，此类只是个包装，真正的Pipeline则是源管道
  * 
  * @author GaoHang
  * 

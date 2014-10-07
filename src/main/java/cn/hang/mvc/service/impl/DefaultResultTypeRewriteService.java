@@ -2,6 +2,8 @@ package cn.hang.mvc.service.impl;
 
 import org.springframework.context.ApplicationContext;
 
+import com.google.common.base.Optional;
+
 import cn.hang.mvc.common.util.ApplicationContextUtils;
 import cn.hang.mvc.common.util.StringUtils;
 import cn.hang.mvc.result.ResultTypeHandler;
@@ -53,7 +55,7 @@ public class DefaultResultTypeRewriteService implements ResultTypeRewriteService
 		if (StringUtils.isEmpty(originalResultType)) {
 			originalResultType = "default";
 		}
-		return applicationContext.getBean(resultTypeMapHolder.getFinalResultType(originalResultType), ResultTypeHandler.class);
+		return applicationContext.getBean(Optional.fromNullable(resultTypeMapHolder.getFinalResultType(originalResultType)).or(originalResultType), ResultTypeHandler.class);
 	}
 
 	@Override

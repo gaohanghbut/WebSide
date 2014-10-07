@@ -328,4 +328,23 @@ public abstract class InvocationUtils {
 			return Boolean.FALSE;
 		}
 	}
+
+    public static Object invokeRunDataParameterMethodWithObject(Object screen, Method method,
+            RequestContext requestContext, Object actionInvokeResult) {
+        try {
+            return method.invoke(screen, requestContext, actionInvokeResult);
+        } catch (Exception e) {
+            throw new DynamicInvocationException(e);
+        }
+        
+    }
+
+    public static Object invokeRunDataParameterMethod(Object screen, Method method,
+            RequestContext requestContext) {
+        try {
+            return method.invoke(screen, requestContext);
+        } catch (Exception e) {
+            throw new DynamicInvocationException(e);
+        }
+    }
 }

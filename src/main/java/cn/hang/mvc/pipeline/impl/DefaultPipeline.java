@@ -23,7 +23,7 @@ public class DefaultPipeline extends AbstractPipeline implements Pipeline {
 		}
 		try {
 			for (Valve valve : valves) {
-				if (!valve.execute(ctx)) {
+				if (!ctx.isPipelineStop() && !valve.execute(ctx)) {
 					return false;
 				}
 			}
@@ -32,7 +32,6 @@ public class DefaultPipeline extends AbstractPipeline implements Pipeline {
 			if (e instanceof PipelineException) {
 				throw (PipelineException) e;
 			}
-			e.printStackTrace();
 			throw new PipelineException(e);
 		}
 	}

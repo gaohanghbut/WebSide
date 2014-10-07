@@ -1,14 +1,15 @@
 package cn.hang.mvc.anotation.param;
 
 /**
- *
+ * ä¸å‚æ•°ç›¸å…³çš„æ³¨è§£ç›¸å…³çš„å¸¸é‡?
+ * 
  * @author Hang
- *
+ * 
  */
 public interface ParamAnnotationConstants {
 
-    /**
-     * Parameteræ³¨è§£ä¸­æ ‡è¯†å‚æ•°åçš„å±æ€§
-     */
-    static final String PARAMETER_ANNOTATION_PARAMETER_NAME_PROPERTY_NAME = "value";
+	/**
+	 * Parameter×¢½âÖĞ±êÊ¶²ÎÊıÃûµÄÊôĞÔ
+	 */
+	static final String PARAMETER_ANNOTATION_PARAMETER_NAME_PROPERTY_NAME = "value";
 }

@@ -2,6 +2,7 @@ package cn.hang.mvc.pipeline.valve.impl;
 
 import cn.hang.mvc.common.util.ApplicationContextUtils;
 import cn.hang.mvc.pipeline.PipelineContext;
+import cn.hang.mvc.pipeline.valve.ControlInvokeResult;
 
 /**
  * 允许action指定的类不存在的情况，在这种情况下valve也返回true，所以可以继续执行后面的valve。
@@ -20,7 +21,7 @@ public class ActionNotExistsAllowedActionInvokeValve extends ActionInvokeValve {
 	 * @param methodName
 	 * @return
 	 */
-	protected Object invokeAction(PipelineContext ctx, String moduleName, String actionName, String methodName) {
+	protected ControlInvokeResult invokeAction(PipelineContext ctx, String moduleName, String actionName, String methodName) {
 		Object action = ApplicationContextUtils.getBean(moduleName, actionName);
 		if (action == null) {//指定action不存在
 			return null;

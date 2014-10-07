@@ -13,21 +13,27 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface RequestContext extends RunData {
 
+    @Deprecated
+	Object getValue(String key);
+	
 	/**
 	 * 根据key获取value，先在当前对象中获取value，如果没有则在其父上下文中查找，然后在request,session,application中查找，直到找到。
 	 * 
 	 * @param key
 	 * @return
 	 */
-	Object getValue(String key);
+	Object get(String key);
 
+	@Deprecated
+	void putValue(String key, Object value);
+	
 	/**
 	 * 设置对象的值，设置的对象不受session和request,application的属性范围管理
 	 * 
 	 * @param key
 	 * @param value
 	 */
-	void putValue(String key, Object value);
+	Object put(String key, Object value);
 	
 	/**
 	 * 返回父RequestContext，Application RequestContext的父RequestContext为空
@@ -79,4 +85,8 @@ public interface RequestContext extends RunData {
 	 */
 	HttpServletResponse getHttpServletResponse();
 
+	/**
+	 * 将状态设置成已经返回
+	 */
+	void expireForward();
 }

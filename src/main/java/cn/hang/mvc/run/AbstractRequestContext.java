@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class AbstractRequestContext implements cn.hang.mvc.RequestContext {
 
 	@Override
+    public void expireForward() {
+    }
+
+    @Override
 	public Map<String, String> getParameterMap() {
 		return null;
 	}
@@ -116,5 +120,18 @@ public abstract class AbstractRequestContext implements cn.hang.mvc.RequestConte
 	public String getActionName() {
 		return null;
 	}
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public Object get(String key) {
+        return getValue(key);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public Object put(String key, Object value) {
+        putValue(key, value);
+        return value;
+    }
 	
 }

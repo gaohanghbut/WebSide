@@ -27,7 +27,6 @@ public class DefaultExceptionHandlerValve extends AbstractValve implements Excep
 
 	@Override
 	public boolean execute(PipelineContext ctx, Throwable e) {
-		e.printStackTrace();
 		log.error(e.getCause(), e);
 		ctx.getRequestContext().putValue("error_message", e.getMessage());
 		return execute(ctx);
